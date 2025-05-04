@@ -83,26 +83,14 @@ jobs:
           if [ ! -d "MLProject/mlruns/0/$RUN_ID/artifacts/model" ]; then
             echo "Model not found for RUN_ID: $RUN_ID. Exiting."
             exit 1
-          fi  
-      # Build Docker Model
-      - name: Build Docker Model
+          fi
+      # ✅ Tambahkan langkah ini untuk menyimpan mlruns/ ke GitHub
+      - name: Save mlruns to GitHub
         run: |
-          source ~/.bashrc
-          conda activate heart-attack-predictor
-          # Print the RUN_ID for debugging
-          echo "Using RUN_ID: $RUN_ID"
-          mlflow models build-docker --model-uri "runs:/$RUN_ID/model" --name "workflow-ci"
-          
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.mahfudl26 }}
-          password: ${{ secrets.dckr_pat_3Sv0IUByX9n_lIerWEIIlr-uRYo }}
-
-      - name: Tag Docker image
-        run: |
-          docker tag heartattack-model ${{ secrets.DOCKER_HUB_USERNAME }}/workflow-ci:latest
-
-      - name: Push Docker image to Docker Hub
-        run: |
-          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/workflow-ci:latest
+          git config --global user.name "${{ secrets.M-Mahfudl-Awaludin }}"
+          git config --global user.email "${{ secrets.mahfudlawaludin.26@gmail.com }}"
+          git pull origin main
+          git add MLProject/mlruns/
+          git commit -m "Save mlruns from CI run" || echo "No changes to commit"
+          git push origin main
+      
