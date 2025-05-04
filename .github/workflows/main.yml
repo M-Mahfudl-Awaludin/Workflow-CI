@@ -31,7 +31,16 @@ jobs:
       - name: Install MLflow
         run: |
           pip install mlflow
+          
+      - name: Install dependencies
+        run: |
+          conda activate heart_attack_env  # Aktifkan environment
+          conda install --file MLProject/conda.yaml  # Instal dependensi dari conda.yaml
 
+      - name: Verify dependencies
+        run: |
+          conda list  # Verifikasi apakah seaborn terinstal
+          
       - name: Run MLflow Project
         run: |
           cd MLProject
