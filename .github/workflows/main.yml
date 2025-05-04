@@ -45,12 +45,10 @@ jobs:
         run: |
           echo "Initializing Conda for bash"
           conda init bash
-          source ~/.bashrc  # Apply the changes made by 'conda init'
-
+          
       # Install MLflow and dependencies
       - name: Install MLflow and dependencies
         run: |
-          source ~/.bashrc  # Ensure shell configuration is reloaded
           conda activate heart-attack-predictor  # Ensure environment is activated
           pip install mlflow  # Install mlflow if it wasn't installed in the environment
           pip install -r MLProject/requirements.txt  # Optional, if there is a requirements.txt
@@ -58,7 +56,6 @@ jobs:
       # Run MLflow Project
       - name: Run MLflow Project
         run: |
-          source ~/.bashrc  # Ensure shell configuration is reloaded
           conda activate heart-attack-predictor  # Ensure environment is activated
           cd MLProject
           mlflow run . -P data_path=processed_data.csv --env-manager=local
@@ -66,24 +63,30 @@ jobs:
       # Get latest run_id
       - name: Get latest MLflow run_id
         run: |
-          source ~/.bashrc
           conda activate heart-attack-predictor
+          # Cek jika direktori mlruns/0 ada dan menampilkan kontennya
+          echo "Checking contents of MLProject/mlruns/0/"
+          ls -l MLProject/mlruns/0/
           RUN_ID=$(ls -td MLProject/mlruns/0/*/ | head -n 1 | cut -d'/' -f4)
           echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
           echo "Latest run_id: $RUN_ID"
-        
+
+      # Verify the existence of the model directory for RUN_ID
+      - name: Verify model directory exists for RUN_ID
+        run: |
+          conda activate heart-attack-predictor
+          echo "Verifying the model directory for RUN_ID: $RUN_ID"
+          if [ ! -d "MLProject/mlruns/0/$RUN_ID/artifacts/model" ]; then
+            echo "Model not found for RUN_ID: $RUN_ID. Exiting."
+            exit 1
+          fi
+       
       # Build Docker Model
       - name: Build Docker Model
         run: |
-          source ~/.bashrc
           conda activate heart-attack-predictor
-          # Print the RUN_ID for debugging
           echo "Using RUN_ID: $RUN_ID"
-          # Check if the model artifacts exist
-          if [ ! -d "MLProject/mlruns/0/$RUN_ID/artifacts/model" ]; then
-          echo "Model not found for RUN_ID: $RUN_ID. Exiting."
-          exit 1
-          fi
+          # Build the docker image using the model
           mlflow models build-docker --model-uri "runs:/$RUN_ID/model" --name "workflow-ci"
           
       - name: Log in to Docker Hub
