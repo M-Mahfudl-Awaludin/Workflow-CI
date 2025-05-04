@@ -39,7 +39,27 @@ jobs:
           environment-file: MLProject/conda.yaml
           activate-environment: heart-attack-predictor
           auto-activate-base: false
-         
+          
+      # Initialize Conda to allow 'conda activate'
+      - name: Initialize Conda
+        run: |
+          conda init bash  # Initialize conda for bash shell
+          source ~/.bashrc  # Apply the changes made by 'conda init'
+      
+      # Install MLflow and dependencies
+      - name: Install MLflow and dependencies
+        run: |
+          conda activate heart-attack-predictor
+          pip install mlflow  # Install mlflow if it wasn't installed in the environment
+          pip install -r MLProject/requirements.txt  # Optional, jika ada file requirements.txt
+
+      # Run MLflow Project
+      - name: Run MLflow Project
+        run: |
+          conda activate heart-attack-predictor  # Ensure conda environment is activated
+          cd MLProject
+          mlflow run . -P data_path=processed_data.csv --env-manager=local
+
       - name: Run MLflow Project
         run: |
           cd MLProject
