@@ -1,12 +1,7 @@
-import os
-os.system("pip install seaborn==0.11.2 matplotlib==3.4.3")
-
 import pandas as pd
 import mlflow
 import mlflow.sklearn
 import argparse
-import matplotlib.pyplot as plt
-import seaborn as sns
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split, RandomizedSearchCV
 from sklearn.metrics import accuracy_score, recall_score, precision_score, confusion_matrix
@@ -60,18 +55,6 @@ def main(data_path):
         mlflow.log_metric("false_negative", fn)
         mlflow.log_metric("true_positive", tp)
         mlflow.sklearn.log_model(best_model, "model", input_example=X_test.iloc[:5])
-
-        plt.figure(figsize=(6, 4))
-        sns.heatmap(conf_matrix, annot=True, fmt="d", cmap="Blues",
-                    xticklabels=["Negative", "Positive"],
-                    yticklabels=["Negative", "Positive"])
-        plt.xlabel("Predicted Label")
-        plt.ylabel("True Label")
-        plt.title("Confusion Matrix Heatmap")
-        plt.tight_layout()
-        cm_file = "conf_matrix_heatmap.png"
-        plt.savefig(cm_file)
-        mlflow.log_artifact(cm_file)
 
     print("Best Parameters:", best_params)
     print(f"Accuracy: {acc}")
