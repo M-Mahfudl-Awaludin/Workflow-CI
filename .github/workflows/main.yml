@@ -87,7 +87,7 @@ jobs:
       # ✅ Tambahkan langkah ini untuk menyimpan mlruns/ ke GitHub
       - name: Push changes to repository
         run: |
-          git config --global user.name "M Mahfudl Awaludin"
+          git config --global user.name "M-Mahfudl-Awaludin"
           git config --global user.email "mahfudlawaludin.26@gmail.com"
           git remote set-url origin https://$GITHUB_ACTOR:${{ secrets.GH_PAT }}@github.com/M-Mahfudl-Awaludin/Workflow-CI.git
           git add .
