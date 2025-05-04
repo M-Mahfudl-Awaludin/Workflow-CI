@@ -87,8 +87,8 @@ jobs:
       # ✅ Tambahkan langkah ini untuk menyimpan mlruns/ ke GitHub
       - name: Save mlruns to GitHub
         run: |
-          git config --global user.name "${{ secrets.M-Mahfudl-Awaludin }}"
-          git config --global user.email "${{ secrets.mahfudlawaludin.26@gmail.com }}"
+          git config --global user.name "${{ secrets.GIT_USERNAME }}"
+          git config --global user.email "${{ secrets.GIT_EMAIL }}"
           git pull origin main
           git add MLProject/mlruns/
           git commit -m "Save mlruns from CI run" || echo "No changes to commit"
