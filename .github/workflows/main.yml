@@ -19,7 +19,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.10"  # Gunakan versi Python yang didukung conda
+          python-version: "3.10"
 
       - name: Set up Conda
         uses: conda-incubator/setup-miniconda@v2
@@ -39,19 +39,21 @@ jobs:
 
       - name: Get latest MLflow run_id
         run: |
-          RUN_ID=$(ls -td MLProject/mlruns/0/*/ | head -n 1 | cut -d'/' -f4)
+          cd MLProject
+          RUN_ID=$(ls -td mlruns/0/*/ | head -n 1 | cut -d'/' -f2)
           echo "RUN_ID=$RUN_ID" >> $GITHUB_ENV
           echo "Latest run_id: $RUN_ID"
 
       - name: Build Docker Model
         run: |
-          mlflow models build-docker --model-uri "file://$(pwd)/MLProject/mlruns/0/$RUN_ID/artifacts/model" --name "heartattack-model"
+          cd MLProject
+          mlflow models build-docker --model-uri "file://$(pwd)/mlruns/0/$RUN_ID/artifacts/model" --name "heartattack-model"
 
-            - name: Log in to Docker Hub
+      - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+          username: ${{ secrets.mahfudl26 }}
+          password: ${{ secrets.dckr_pat_3Sv0IUByX9n_lIerWEIIlr-uRYo }}
 
       - name: Tag Docker image
         run: |
