@@ -13,7 +13,7 @@ def main(data_path):
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    mlflow.set_experiment("Model_Tuning_CI")
+    # Removed mlflow.set_experiment() to avoid conflict with mlflow run
 
     est = RandomForestClassifier(random_state=19)
     params = {
