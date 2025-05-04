@@ -35,7 +35,7 @@ jobs:
       - name: Run MLflow Project
         run: |
           cd MLProject
-          mlflow run . -P data_path=processed_data.csv
+          mlflow run . -P data_path=processed_data.csv --env-manager=local
 
       - name: Get latest MLflow run_id
         run: |
