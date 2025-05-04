@@ -37,10 +37,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install mlflow  
           
-      # Run as a mlflow project
-      - name: Run mlflow project
+      - name: Run MLflow Project
         run: |
-          mlflow run MLproject --env-manager=local 
+          cd MLProject
+          mlflow run . -P data_path=processed_data.csv --env-manager=local 
           
       # Get latest run_id
       - name: Get latest MLflow run_id
