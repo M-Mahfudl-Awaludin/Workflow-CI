@@ -1,0 +1,10 @@
+name: heart-attack-predictor
+
+conda_env: conda.yaml
+
+entry_points:
+  main:
+    parameters:
+      data_path: {type: str, default: "processed_data.csv"}
+    command: >
+      python modelling_tuning.py --data_path {data_path}
