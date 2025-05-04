@@ -89,7 +89,7 @@ jobs:
         run: |
           git config --global user.name "${{ secrets.GIT_USERNAME }}"
           git config --global user.email "${{ secrets.GIT_EMAIL }}"
-          git remote set-url origin https://x-access-token:${{ secrets.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 }}@github.com/${{ github.repository }}
+          git remote set-url origin https://${{ secrets.GH_PAT }}@github.com/M-Mahfudl-Awaludin/Workflow-CI.git
           git add MLProject/mlruns/
           git commit -m "Save mlruns from CI run" || echo "No changes to commit"
           git push origin main
