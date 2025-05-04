@@ -1,3 +1,6 @@
+import os
+os.system("pip install seaborn==0.11.2 matplotlib==3.4.3")
+
 import pandas as pd
 import mlflow
 import mlflow.sklearn
