@@ -1,0 +1,15 @@
+artifact_uri: file:///home/runner/work/Workflow-CI/Workflow-CI/MLProject/mlruns/0/371e4c9fe39d4900af011a41882d68d3/artifacts
+end_time: 1747637469229
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 371e4c9fe39d4900af011a41882d68d3
+run_name: delicate-stork-586
+run_uuid: 371e4c9fe39d4900af011a41882d68d3
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747637458178
+status: 3
+tags: []
+user_id: runner
