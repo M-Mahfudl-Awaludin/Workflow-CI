@@ -95,4 +95,28 @@ jobs:
           git push origin main
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
+
+        # ✅ Build Docker Image from model
+      - name: Build Docker Image from MLflow model
+        run: |
+          source ~/.bashrc
+          conda activate heart-attack-predictor
+          mlflow models build-docker --model-uri "file://$GITHUB_WORKSPACE/MLProject/mlruns/0/$RUN_ID/artifacts/model" --name cc
+
+      # ✅ Login ke Docker Hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      # ✅ Tag Docker Image
+      - name: Tag Docker Image
+        run: |
+          docker tag cc ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_REPO }}:latest
+
+      # ✅ Push Docker Image
+      - name: Push Docker Image to Docker Hub
+        run: |
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_REPO }}:latest
             
