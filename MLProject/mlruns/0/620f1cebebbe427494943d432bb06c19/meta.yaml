@@ -1,0 +1,15 @@
+artifact_uri: file:///home/runner/work/Workflow-CI/Workflow-CI/MLProject/mlruns/0/620f1cebebbe427494943d432bb06c19/artifacts
+end_time: 1747644294365
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 620f1cebebbe427494943d432bb06c19
+run_name: charming-ray-796
+run_uuid: 620f1cebebbe427494943d432bb06c19
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1747644283334
+status: 3
+tags: []
+user_id: runner
